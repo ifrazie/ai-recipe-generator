@@ -4,6 +4,7 @@ import "./App.css";
 import { Amplify } from "aws-amplify";
 import { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import outputs from "../amplify_outputs.json";
 
 
@@ -16,6 +17,7 @@ const amplifyClient = generateClient<Schema>({
 });
 
 function App() {
+    const { signOut } = useAuthenticator();
     const [result, setResult] = useState<string>("");
     const [loading, setLoading] = useState(false);
 
@@ -49,7 +51,7 @@ function App() {
             <div className="header-container">
                 <h1 className="main-header">
                     Meet Your Personal
-                    <br />
+                    <br/>
                     <span className="highlight">Recipe AI</span>
                 </h1>
                 <p className="description">
@@ -76,15 +78,16 @@ function App() {
                 {loading ? (
                     <div className="loader-container">
                         <p>Loading...</p>
-                        <Loader size="large" />
-                        <Placeholder size="large" />
-                        <Placeholder size="large" />
-                        <Placeholder size="large" />
+                        <Loader size="large"/>
+                        <Placeholder size="large"/>
+                        <Placeholder size="large"/>
+                        <Placeholder size="large"/>
                     </div>
                 ) : (
                     result && <p className="result">{result}</p>
                 )}
             </div>
+            <button onClick={signOut}>Sign out</button>
         </div>
     );
 }
